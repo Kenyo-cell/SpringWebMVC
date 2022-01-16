@@ -3,6 +3,7 @@ package ru.netology.model;
 public class Post {
   private long id;
   private String content;
+  private boolean onDelete = false;
 
   public Post() {
   }
@@ -26,5 +27,13 @@ public class Post {
 
   public void setContent(String content) {
     this.content = content;
+  }
+
+  public boolean isOnDelete() {
+    return onDelete;
+  }
+
+  public void setOnDelete(boolean onDelete) {
+    this.onDelete = onDelete;
   }
 }

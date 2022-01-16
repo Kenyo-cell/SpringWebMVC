@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 
 @Repository
 public class PostRepositoryImpl implements PostRepository {
@@ -19,18 +20,24 @@ public class PostRepositoryImpl implements PostRepository {
   private final AtomicLong idCounter = new AtomicLong(0);
 
   public List<Post> all() {
-    return new ArrayList<>(posts.values());
+    return posts.values().stream()
+            .filter(post -> !post.isOnDelete())
+            .collect(Collectors.toList());
   }
 
   public Optional<Post> getById(long id) {
-    return Optional.ofNullable(posts.get(id));
+    Post post = posts.get(id);
+    return Optional.ofNullable(post.isOnDelete() ? null : post);
   }
 
   public Post save(Post post) throws NotFoundException {
-    if (post.getId() == NEW_POST) {
+    if (post.getId() == NEW_POST)
       post.setId(idCounter.incrementAndGet());
-    } else if (posts.get(post.getId()) == null)
-      throw new NotFoundException("Post with id %d not found".formatted(post.getId()));
+    else {
+      Post postWithId = posts.get(post.getId());
+      if (postWithId == null || postWithId.isOnDelete())
+        throw new NotFoundException("Post with id %d not found".formatted(post.getId()));
+    }
 
     posts.put(post.getId(), post);
     return post;
