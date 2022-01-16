@@ -6,8 +6,6 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 import javax.servlet.ServletContext;
 
-
-// TODO: what is it???
 public class AppInitializer implements WebApplicationInitializer {
     @Override
     public void onStartup(ServletContext servletContext){
