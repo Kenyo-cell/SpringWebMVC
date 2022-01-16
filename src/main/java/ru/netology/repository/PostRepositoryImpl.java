@@ -4,7 +4,6 @@ import org.springframework.stereotype.Repository;
 import ru.netology.exception.NotFoundException;
 import ru.netology.model.Post;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,7 +26,7 @@ public class PostRepositoryImpl implements PostRepository {
 
   public Optional<Post> getById(long id) {
     Post post = posts.get(id);
-    return Optional.ofNullable(post.isOnDelete() ? null : post);
+    return Optional.ofNullable(post == null || post.isOnDelete() ? null : post);
   }
 
   public Post save(Post post) throws NotFoundException {
