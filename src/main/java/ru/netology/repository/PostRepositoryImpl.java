@@ -36,10 +36,9 @@ public class PostRepositoryImpl implements PostRepository {
     return post;
   }
 
-  public boolean removeById(long id) throws NotFoundException {
-    if (posts.get(id) == null)
+  public void removeById(long id) throws NotFoundException {
+    if (!posts.containsKey(id))
       throw new NotFoundException("Post with id %d not found".formatted(id));
     posts.remove(id);
-    return true;
   }
 }

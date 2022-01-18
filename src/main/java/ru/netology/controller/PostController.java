@@ -1,8 +1,6 @@
 package ru.netology.controller;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import ru.netology.exception.NotFoundException;
 import ru.netology.model.Post;
 import ru.netology.service.PostService;
@@ -24,29 +22,17 @@ public class PostController {
   }
 
   @GetMapping("/{id}")
-  public Post getById(@PathVariable long id) {
-    try {
-      return service.getById(id);
-    } catch (NotFoundException e) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-    }
+  public Post getById(@PathVariable long id) throws NotFoundException {
+    return service.getById(id);
   }
 
   @PostMapping
-  public Post save(@RequestBody Post post) {
-    try {
+  public Post save(@RequestBody Post post) throws NotFoundException {
       return service.save(post);
-    } catch (NotFoundException e) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-    }
   }
 
   @DeleteMapping("/{id}")
-  public void removeById(@PathVariable long id) {
-    try {
-      service.removeById(id);
-    } catch (NotFoundException e) {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-    }
+  public void removeById(@PathVariable long id) throws NotFoundException {
+    service.removeById(id);
   }
 }
