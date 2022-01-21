@@ -1,8 +1,12 @@
 package ru.netology.model;
 
+import com.google.gson.annotations.Expose;
+
 public class Post {
   private long id;
   private String content;
+  @Expose(serialize = false)
+  private boolean onDelete = false;
 
   public Post() {
   }
@@ -26,5 +30,13 @@ public class Post {
 
   public void setContent(String content) {
     this.content = content;
+  }
+
+  public boolean isOnDelete() {
+    return onDelete;
+  }
+
+  public void setOnDelete(boolean onDelete) {
+    this.onDelete = onDelete;
   }
 }
